@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://c28iqd77uljn0"]
+
+[ext_resource type="Script" uid="uid://bce446kg5ylwa" path="res://music_manager.gd" id="1_tylfe"]
+[ext_resource type="AudioStream" uid="uid://bc8ua4p36gi77" path="res://Audio/tower-defense-8-bit-chiptune-game-music-358521.mp3" id="2_rjr7q"]
+
+[node name="MusicManager" type="Node"]
+script = ExtResource("1_tylfe")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_rjr7q")
