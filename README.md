@@ -1,6 +1,9 @@
 # Godot Tic-Tac-Toe
 A complete Tic-Tac-Toe game built with the Godot Engine 4. This project was developed as a learning exercise to explore the core features of Godot, from scene management and UI design to audio handling and game logic.
 
+![image](https://github.com/user-attachments/assets/e1faab41-f805-4771-927e-cbe63098a2dd)
+
+
 ## Features
 This isn't just a basic game board. It includes a full suite of features that make for a complete game experience:
 
