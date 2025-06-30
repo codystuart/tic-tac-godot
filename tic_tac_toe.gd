@@ -1,10 +1,11 @@
 extends Control
 
 # --- NODES ---
-@onready var grid_container = $GridContainer
 @onready var label = $Label
+@onready var grid_container = $GridContainer
 @onready var restart_button = $RestartButton
 @onready var menu_button = $MenuButton
+@onready var input_shield = $InputShield
 
 #Preload all the sound affects needed
 const SOUND_PLACE_PIECE = preload("res://Audio/select_002.ogg")
@@ -24,6 +25,8 @@ var game_over = false
 # --- GAME INIT ---
 # This function is called automatically when the node enters the scene tree (i.e., when the game starts).
 func _ready():
+	input_shield.size = grid_container.size
+	input_shield.position = grid_container.position
 	# We need to connect the 'pressed' signal of each button to our script.
 	# This loop goes through all 9 buttons in the GridContainer.
 	for i in range(grid_container.get_child_count()):
@@ -49,11 +52,11 @@ func _on_button_pressed(index):
 		# First, check if the spot is already taken or if the game is over. If so, do nothing.
 		if board[index] !=0 or game_over:
 			return # Exit the function early
-		
+			
 		SfxManager.play(SOUND_PLACE_PIECE)
 		# Update the board state with the current player's number
 		board[index] = current_player
-		
+			
 		# Get the actual button node that was pressed and update its text.
 		var button = grid_container.get_child(index)
 		button.text = "X" if current_player == 1 else "O"
@@ -78,7 +81,11 @@ func _on_button_pressed(index):
 			current_player *=-1
 			update_status_label()
 			
-		
+		if GameManager.is_ai_game == true and current_player == -1 and not game_over:
+			input_shield.show()
+			await get_tree().create_timer(0.5).timeout
+			_ai_make_move()
+			input_shield.hide()
 # A helper function to update the message label with the current turn.
 func update_status_label():
 		var player_char = "X" if current_player == 1 else "O"
@@ -140,3 +147,32 @@ func _on_menu_button_pressed():
 		SfxManager.play(SOUND_UI_CLICK)
 		await MusicManager.fade_out_music(1.0)
 		get_tree().change_scene_to_file("res://main_menu.tscn")
+		
+# --- COMPUTER OPPONENT ---
+func _ai_make_move():
+	if GameManager.ai_difficulty == "Easy":
+		_ai_easy_move()
+	else: # "Hard"
+		_ai_hard_move()
+		
+func _ai_easy_move():
+	var available_spots = []
+	for i in range(board.size()):
+		if board[i] == 0:
+			available_spots.append(i)
+	
+	if not available_spots.is_empty():
+		available_spots.shuffle()
+		var random_spot_index = available_spots.front()
+		_on_button_pressed(random_spot_index)
+
+func _ai_hard_move():
+	var available_spots = []
+	for i in range(board.size()):
+		if board[i] == 0:
+			available_spots.append(i)
+	
+	if not available_spots.empty():
+		available_spots.shuffle()
+		var random_spot_index = available_spots.front()
+		_on_button_pressed(random_spot_index)
