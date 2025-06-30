@@ -111,5 +111,3 @@ offset_right = 158.0
 offset_bottom = 215.0
 scale = Vector2(2, 2)
 text = "Main Menu"
-
-[node name="SFXPlayer" type="AudioStreamPlayer" parent="."]

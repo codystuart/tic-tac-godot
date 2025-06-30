@@ -5,18 +5,11 @@ extends Control
 @onready var label = $Label
 @onready var restart_button = $RestartButton
 @onready var menu_button = $MenuButton
-@onready var sfx_player = $SFXPlayer
 
 #Preload all the sound affects needed
 const SOUND_PLACE_PIECE = preload("res://Audio/select_002.ogg")
 const SOUND_WIN = preload("res://Audio/jingles_NES03.ogg")
 const SOUND_UI_CLICK = preload("res://Audio/click_002.ogg")
-
-
-# Audio helper function
-func play_sfx(sound):
-	sfx_player.stream = sound
-	sfx_player.play()
 
 # --- GAME STATE VARIABLES ---
 # An array to represent the 3x3 board. 0 = empty, 1 = player X, -1 = player O.
@@ -57,7 +50,7 @@ func _on_button_pressed(index):
 		if board[index] !=0 or game_over:
 			return # Exit the function early
 		
-		play_sfx(SOUND_PLACE_PIECE)
+		SfxManager.play(SOUND_PLACE_PIECE)
 		# Update the board state with the current player's number
 		board[index] = current_player
 		
@@ -70,7 +63,7 @@ func _on_button_pressed(index):
 			game_over = true
 			var winner = "X" if current_player == 1 else "O"
 			label.text = "Player " + winner + " Wins!"
-			play_sfx(SOUND_WIN)
+			SfxManager.play(SOUND_WIN)
 			restart_button.show()
 			menu_button.show()
 		# if no one won, check if it's a draw.
@@ -122,7 +115,7 @@ func check_for_draw():
 		return true # it's a draw
 
 func restart_game():
-		play_sfx(SOUND_UI_CLICK)
+		SfxManager.play(SOUND_UI_CLICK)
 		
 		# 1. Reset the game state variables
 		game_over = false
@@ -144,8 +137,6 @@ func restart_game():
 		menu_button.hide()
 
 func _on_menu_button_pressed():
-		play_sfx(SOUND_UI_CLICK)
+		SfxManager.play(SOUND_UI_CLICK)
 		await MusicManager.fade_out_music(1.0)
 		get_tree().change_scene_to_file("res://main_menu.tscn")
-		
-# EOF

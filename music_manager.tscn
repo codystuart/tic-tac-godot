@@ -8,3 +8,4 @@ script = ExtResource("1_tylfe")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_rjr7q")
+bus = &"Music"
