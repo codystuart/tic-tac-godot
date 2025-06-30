@@ -47,13 +47,13 @@ func _on_back_button_pressed():
 	opponent_choice_panel.hide()
 	
 func _on_human_button_pressed():
-	GameManager.is_ai_game = false
+	GameManager.game_mode = "pvp"
 	SfxManager.play(SOUND_UI_CLICK)
 	await MusicManager.fade_out_music(1.0)
 	get_tree().change_scene_to_file("res://tic_tac_toe.tscn")
 	
 func _on_ai_button_pressed():
-	GameManager.is_ai_game = true
+	#Gamemanager.game_mode = 
 	SfxManager.play(SOUND_UI_CLICK)
 	await MusicManager.fade_out_music(1.0)
 	get_tree().change_scene_to_file("res://tic_tac_toe.tscn")

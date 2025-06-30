@@ -81,7 +81,7 @@ func _on_button_pressed(index):
 			current_player *=-1
 			update_status_label()
 			
-		if GameManager.is_ai_game == true and current_player == -1 and not game_over:
+		if GameManager.game_mode != "pvp" and current_player == -1 and not game_over:
 			input_shield.show()
 			await get_tree().create_timer(0.5).timeout
 			_ai_make_move()
@@ -150,10 +150,12 @@ func _on_menu_button_pressed():
 		
 # --- COMPUTER OPPONENT ---
 func _ai_make_move():
-	if GameManager.ai_difficulty == "Easy":
+	if GameManager.game_mode == "easy":
 		_ai_easy_move()
-	else: # "Hard"
-		_ai_hard_move()
+	elif GameManager.game_mode == "medium":
+		_ai_medium_move()
+	#else: # "Hard"
+		#_ai_hard_move()
 		
 func _ai_easy_move():
 	var available_spots = []
@@ -166,13 +168,39 @@ func _ai_easy_move():
 		var random_spot_index = available_spots.front()
 		_on_button_pressed(random_spot_index)
 
-func _ai_hard_move():
-	var available_spots = []
+func _ai_medium_move():
+	# --- Priority 1: Check for a winning move (Offense) ---
 	for i in range(board.size()):
+		# Check only empty spots
 		if board[i] == 0:
-			available_spots.append(i)
-	
-	if not available_spots.empty():
-		available_spots.shuffle()
-		var random_spot_index = available_spots.front()
-		_on_button_pressed(random_spot_index)
+			# Temporarily make the move for the AI
+			board[i] = -1 # AI is player -1
+			# Check if this move is a winner
+			if check_for_win():
+				# If it is, undo the temporary move (good practice)
+				board[i] = 0
+				# Make the winning move for real and stop searching.
+				_on_button_pressed(i)
+				return # Exit the function since we found our best move
+			# IMPORTANT: Undo the temporary move to continue searching
+			board[i] = 0
+			
+	# --- Priority 2: Check for a blocking move (Defense) ---
+	for i in range(board.size()):
+		# Check only empty spots
+		if board[i] == 0:
+			# Temporarily make the move for the PLAYER
+			board[i] = 1 # Player is player 1
+			# Check if this move would make the player win
+			if check_for_win():
+				# If it would, we must block it. Undo the temp move.
+				board[i] = 0
+				# Make the blocking move FOR THE AI and stop searching.
+				_on_button_pressed(i)
+				return # Exit the function
+			# IMPORTANT: Undo the temporary move
+			board[i] = 0
+	# --- Priority 3: If no win or block, make a random move (Fallback) ---
+	# If the code reaches this point, it means there were no critical moves.
+	# We can just call our existing easy AI to make a random move.
+	_ai_easy_move()

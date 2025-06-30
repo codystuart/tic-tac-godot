@@ -17,19 +17,24 @@ func _ready():
 	
 	# AI Difficulty Options
 	difficulty_button.item_selected.connect(_on_difficulty_selected)
-	if GameManager.ai_difficulty == "Easy":
+	if GameManager.game_mode == "easy":
 		difficulty_button.select(0)
-	else:
+	elif GameManager.game_mode == "medium":
 		difficulty_button.select(1)
+	#else: # "Hard"
+		#difficulty_button.select(2)
 	
 	music_slider.value = AudioServer.get_bus_volume_db(music_bus_index)
 	sfx_slider.value = AudioServer.get_bus_volume_db(sfx_bus_index)
 	
 func _on_difficulty_selected(index):
 	if index == 0:
-		GameManager.ai_difficulty = "Easy"
+		GameManager.game_mode = "easy"
 	elif index == 1:
-		GameManager.ai_difficulty = "Hard"
+		GameManager.game_mode = "medium"
+	#else:
+		#GameManager.game_mode = "hard"
+		
 func _on_music_volume_changed(value):
 	AudioServer.set_bus_volume_db(music_bus_index, value)
 	
