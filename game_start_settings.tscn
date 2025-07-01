@@ -7,24 +7,25 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 17.0
+offset_top = 4.0
+offset_right = 17.0
+offset_bottom = 4.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_t53a1")
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="GameModeDisplayLabel" type="Label" parent="."]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = 5
 anchor_left = 0.5
-anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -90.0
-offset_top = -64.0
-offset_right = 90.0
-offset_bottom = 64.0
+offset_left = -97.5
+offset_top = 215.0
+offset_right = 97.5
+offset_bottom = 238.0
 grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.18359, 0.18359, 0.18359, 1)
+text = "Current Game Mode: Pvp"
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 layout_mode = 2
@@ -56,32 +57,22 @@ layout_mode = 2
 text = "Back
 "
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer2" type="VBoxContainer" parent="PanelContainer"]
 visible = false
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -35.5
-offset_top = -56.0
-offset_right = 35.5
-offset_bottom = 56.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 2
 
-[node name="Label7" type="Label" parent="VBoxContainer"]
+[node name="Label7" type="Label" parent="PanelContainer/VBoxContainer2"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 36
 text = "AI "
 horizontal_alignment = 1
 
-[node name="Label8" type="Label" parent="VBoxContainer"]
+[node name="Label8" type="Label" parent="PanelContainer/VBoxContainer2"]
 layout_mode = 2
 text = "Difficulty"
+horizontal_alignment = 1
 
-[node name="DifficultyButton" type="OptionButton" parent="VBoxContainer"]
+[node name="DifficultyButton" type="OptionButton" parent="PanelContainer/VBoxContainer2"]
 layout_mode = 2
 selected = 0
 item_count = 2
@@ -89,3 +80,11 @@ popup/item_0/text = "Easy"
 popup/item_0/id = 0
 popup/item_1/text = "Hard"
 popup/item_1/id = 2
+
+[node name="StartButton" type="Button" parent="PanelContainer/VBoxContainer2"]
+layout_mode = 2
+text = "Start Game"
+
+[node name="AIBackButton" type="Button" parent="PanelContainer/VBoxContainer2"]
+layout_mode = 2
+text = "Back"
