@@ -152,10 +152,8 @@ func _on_menu_button_pressed():
 func _ai_make_move():
 	if GameManager.game_mode == "easy":
 		_ai_easy_move()
-	elif GameManager.game_mode == "medium":
-		_ai_medium_move()
-	#else: # "Hard"
-		#_ai_hard_move()
+	else:
+		_ai_hard_move()
 		
 func _ai_easy_move():
 	var available_spots = []
@@ -168,7 +166,7 @@ func _ai_easy_move():
 		var random_spot_index = available_spots.front()
 		_on_button_pressed(random_spot_index)
 
-func _ai_medium_move():
+func _ai_hard_move():
 	# --- Priority 1: Check for a winning move (Offense) ---
 	for i in range(board.size()):
 		# Check only empty spots

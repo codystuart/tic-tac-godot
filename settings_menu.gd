@@ -15,25 +15,8 @@ func _ready():
 	sfx_slider.value_changed.connect(_on_sfx_volume_changed)
 	back_button.pressed.connect(_on_back_button_pressed)
 	
-	# AI Difficulty Options
-	difficulty_button.item_selected.connect(_on_difficulty_selected)
-	if GameManager.game_mode == "easy":
-		difficulty_button.select(0)
-	elif GameManager.game_mode == "medium":
-		difficulty_button.select(1)
-	#else: # "Hard"
-		#difficulty_button.select(2)
-	
 	music_slider.value = AudioServer.get_bus_volume_db(music_bus_index)
 	sfx_slider.value = AudioServer.get_bus_volume_db(sfx_bus_index)
-	
-func _on_difficulty_selected(index):
-	if index == 0:
-		GameManager.game_mode = "easy"
-	elif index == 1:
-		GameManager.game_mode = "medium"
-	#else:
-		#GameManager.game_mode = "hard"
 		
 func _on_music_volume_changed(value):
 	AudioServer.set_bus_volume_db(music_bus_index, value)
@@ -43,5 +26,4 @@ func _on_sfx_volume_changed(value):
 	
 func _on_back_button_pressed():
 	SfxManager.play(SOUND_UI_CLICK)
-	
 	get_tree().change_scene_to_file("res://main_menu.tscn")
