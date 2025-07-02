@@ -43,7 +43,7 @@ text = "Music"
 
 [node name="MusicVolumeSlider" type="HSlider" parent="CenterContainer/VBoxContainer"]
 layout_mode = 2
-min_value = -30.0
+min_value = -80.0
 max_value = 0.0
 
 [node name="Label4" type="Label" parent="CenterContainer/VBoxContainer"]
@@ -52,7 +52,7 @@ text = "SFX"
 
 [node name="SFXVolumeSlider" type="HSlider" parent="CenterContainer/VBoxContainer"]
 layout_mode = 2
-min_value = -30.0
+min_value = -80.0
 max_value = 0.0
 
 [node name="BackButton" type="Button" parent="CenterContainer/VBoxContainer"]
