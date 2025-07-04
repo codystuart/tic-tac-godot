@@ -13,7 +13,11 @@ extends Node
 	
 	player.play()
 """
-
+func _ready():
+	var initial_volume = linear_to_db(0.5)
+	var sfx_bus_index = AudioServer.get_bus_index("SFX")
+	AudioServer.set_bus_volume_db(sfx_bus_index, initial_volume)
+	
 func play(sound_resource):
 	if not sound_resource:
 		print("SFXManager: Tried to play a null sound.")
